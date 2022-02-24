@@ -16,6 +16,11 @@ func routes(appConfig *config.AppConfig) http.Handler {
 	// logs the panic (and a backtrace),
 	// and returns an HTTP 500 (Internal Server Error)
 	mux.Use(middleware.Recoverer)
+	// Logging every request to console
+	mux.Use(WriteToConsole)
+
+	// Setting Csrf middleware
+	mux.Use(NoSurf)
 
 	mux.Get("/", handlers.Repo.Home)
 	mux.Get("/about", handlers.Repo.About)
