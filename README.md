@@ -9,6 +9,11 @@ Routing:
  in go and this one habe some interesting middlewares)
 Middlewares:
 - https://github.com/justinas/nosurf CSRF protection middleware for Go.
+State Management with Sessions:
+- https://github.com/alexedwards/scs HTTP Session Management for Go
+
+
+
 
 
 Note: For more options on the routing side of things

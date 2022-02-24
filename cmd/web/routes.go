@@ -22,6 +22,9 @@ func routes(appConfig *config.AppConfig) http.Handler {
 	// Setting Csrf middleware
 	mux.Use(NoSurf)
 
+	// Session Handling
+	mux.Use(SessionLoad)
+
 	mux.Get("/", handlers.Repo.Home)
 	mux.Get("/about", handlers.Repo.About)
 

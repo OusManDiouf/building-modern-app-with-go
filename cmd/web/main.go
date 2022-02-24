@@ -4,17 +4,33 @@ import (
 	"github.com/OusManDiouf/building-modern-app-with-go/pkg/config"
 	"github.com/OusManDiouf/building-modern-app-with-go/pkg/handlers"
 	"github.com/OusManDiouf/building-modern-app-with-go/pkg/render"
+	"github.com/alexedwards/scs/v2"
 	"log"
 	"net/http"
+	"time"
 )
 
 const (
 	portNumber = ":8080"
 )
 
+var appConfig config.AppConfig
+var sessionManager *scs.SessionManager
+
 func main() {
 
-	var appConfig config.AppConfig
+	// Todo: Change this to true when in production
+	appConfig.InProduction = false
+
+	// Initialize Session
+	sessionManager = scs.New()
+	sessionManager.Lifetime = 24 * time.Hour
+	sessionManager.Cookie.Name = "session_id"
+	sessionManager.Cookie.Persist = true
+	sessionManager.Cookie.SameSite = http.SameSiteLaxMode
+	sessionManager.Cookie.Secure = appConfig.InProduction // set it true in production !
+	// Making the session available to the application
+	appConfig.SessionManager = sessionManager
 
 	templateCache, errorTc := render.CreateTemplateCache()
 	if errorTc != nil {

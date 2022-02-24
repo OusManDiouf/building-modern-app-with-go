@@ -26,8 +26,15 @@ func NewHandlers(r *Repository) {
 	Repo = r
 }
 
+//----------------------------------------------------->
+
 //Home handler
 func (repo *Repository) Home(writer http.ResponseWriter, request *http.Request) {
+
+	// Tsing session - Setting remoteIp adress
+	remoteIp := request.RemoteAddr
+	repo.AppConfig.SessionManager.Put(request.Context(), "remote_ip", remoteIp)
+
 	render.Template(writer, "home.page.gohtml", &models.TemplateData{})
 }
 
@@ -36,6 +43,10 @@ func (repo *Repository) About(writer http.ResponseWriter, request *http.Request)
 
 	stringMap := make(map[string]string)
 	stringMap["test"] = "Hello Lessou"
+
+	// Pull out the session (TEST)
+	remoteIp := repo.AppConfig.SessionManager.GetString(request.Context(), "remote_ip")
+	stringMap["remote_ip"] = remoteIp
 
 	render.Template(writer, "about.page.gohtml", &models.TemplateData{
 		StringMap: stringMap,
