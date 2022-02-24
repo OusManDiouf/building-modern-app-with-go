@@ -1,6 +1,6 @@
 # building-modern-app-with-go
 
-# NOTE: This project serve as a starting point for wrweb app in go
+# NOTE: This project serve as a starting point for web app in go
 This project use the following packages:
 
 Routing:
